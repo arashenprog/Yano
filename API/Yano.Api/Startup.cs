@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Yano.Api.Services;
 
 namespace Yano.Api
 {
@@ -25,6 +26,8 @@ namespace Yano.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //
+            services.AddScoped<IYanoGameService, YanoGameService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

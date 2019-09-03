@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Yano.Api.Models
+namespace Yano.Api.Domain.Models
 {
-    public abstract class BaseModel
+    public enum Answer
     {
-        public ulong ID { get; set; }
+        Yes,
+        No,
     }
 }

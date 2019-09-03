@@ -1,4 +1,4 @@
-﻿namespace Yano.Api.Models
+﻿namespace Yano.Api.Domain.Models
 {
     public class PlayerAnswer : BaseModel
     {
