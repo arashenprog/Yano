@@ -8,5 +8,7 @@ namespace Yano.Api.Domain.Models
     public class Category : BaseModel
     {
         public string Title { get; set; }
+        public int Weigth { get; set; }
+
     }
 }

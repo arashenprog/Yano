@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Yano.Api.Domain.Models
 {
-    public enum Answer
+    public class PlayerGifts
     {
-        Yes,
-        No,
-        Skip,
+        public ulong PlayerId { get; set; }
+        public ulong GiftId { get; set; }
+
     }
 }

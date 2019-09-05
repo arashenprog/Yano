@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace Yano.Api.Domain.Models
 {
-    public enum Answer
+    public class RejectReasons : BaseModel
     {
-        Yes,
-        No,
-        Skip,
+        public string Title { get; set; }
     }
 }

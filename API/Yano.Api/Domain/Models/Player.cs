@@ -16,5 +16,7 @@ namespace Yano.Api.Domain.Models
         public string Token { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public byte ActiveFlag { get; set; }
+
     }
 }

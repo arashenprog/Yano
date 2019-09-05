@@ -10,5 +10,10 @@ namespace Yano.Api.Domain.Models
         public uint Count { get; set; }
         public byte Yes { get; set; }
         public byte No { get; set; }
+        public byte Like { get; set; }
+
+        public byte DisLike { get; set; }
+
+        public byte Skip { get; set; }
     }
 }
