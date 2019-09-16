@@ -1,7 +1,12 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Yano.Api.Domain.Models;
 using Yano.Api.Utils.Extensions;
@@ -61,8 +66,11 @@ namespace Yano.Api.Services
         #endregion
 
         #region Constructor
-        public YanoGameService()
+        private readonly AppSettings _appSettings;
+
+        public YanoGameService(IOptions<AppSettings> appSettings)
         {
+            _appSettings = appSettings.Value;
             this.client = new MongoClient(connectionString);
             db = client.GetDatabase("yano");
             if (true)
@@ -83,14 +91,42 @@ namespace Yano.Api.Services
             throw new NotImplementedException();
         }
 
-        public Task<Player> LoginPlayer(string username, string password)
+        public async Task<Player> LoginPlayer(string username, string password)
         {
-            throw new NotImplementedException();
+            var user = Players.FindSync(x => x.Username == username && x.Password == password).FirstOrDefault();
+
+            // return null if user not found
+            if (user == null)
+                return null;
+
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
+            return user;
         }
 
-        public Task<IEnumerable<Question>> GetNextQuestions(ulong playerId)
+        public async Task<IEnumerable<Question>> GetNextQuestions(ulong playerId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await this.Questions.FindSync(c => true).ToListAsync();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public async Task<IEnumerable<Question>> GetGuestQuestions()

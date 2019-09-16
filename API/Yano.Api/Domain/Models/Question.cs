@@ -24,11 +24,6 @@ namespace Yano.Api.Domain.Models
         public byte RejectedFlag { get; set; }
         public byte ConfirmedFlag { get; set; } /***** For Questions That Players Create ****/
         public ulong RejectReasonId { get; set; }
-        public ulong PlayerId { get; set; } /*****The player who Create Question******/
-
-
-
-
-
+        public ulong? CreatorPlayerId { get; set; } /*****The player who Create Question******/
     }
 }
