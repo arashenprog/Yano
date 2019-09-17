@@ -136,7 +136,13 @@ namespace Yano.Api.Services
 
         public Task<QuestionStat> Answer(ulong playerId, ulong questionId, Answer answer)
         {
-            throw new NotImplementedException();
+            //this.PlayerAnswers.InsertOne(new PlayerAnswer
+            //{
+            //    PlayerId = playerId,
+            //    QuestionId = questionId,
+            //    Answer = answer
+            //});
+            throw new Exception();
         }
 
         public void Like(ulong playerId, ulong questionId)

@@ -14,6 +14,5 @@ namespace Yano.Api.Domain.Models
 
         public byte DisLike { get; set; }
 
-        public byte Skip { get; set; }
     }
 }

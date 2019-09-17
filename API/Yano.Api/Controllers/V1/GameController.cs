@@ -51,6 +51,21 @@ namespace Yano.Api.Controllers
             });
         }
 
+
+        [HttpPost]
+        [Route("player/answer")]
+        [AllowAnonymous]
+        public async Task<QuestionStatResource> Answer([FromBody] AnswerResource answer)
+        {
+            var a = await _service.Answer(answer.PlayerId, answer.QuestionId, answer.Answer);
+            return new QuestionStatResource
+            {
+                Count = a.Count,
+                No = a.No,
+                Yes = a.Yes
+            };
+        }
+
         [HttpGet]
         [Route("player/{playerid}")]
         public async Task<IEnumerable<QuestionResource>> GetPlayerQuestions(ulong playerid)
