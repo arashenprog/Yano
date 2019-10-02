@@ -12,18 +12,13 @@ namespace Yano.Api.Domain.Models
 
         public ulong Yes { get; set; }
         public ulong No { get; set; }
-
-        public ulong Like { get; set; }
+        public ulong Count { get; set; }
 
         public ulong DisLike { get; set; }
 
-        public ulong Skip { get; set; }
-
-
-        public byte ActiveFlag { get; set; }
-        public byte RejectedFlag { get; set; }
-        public byte ConfirmedFlag { get; set; } /***** For Questions That Players Create ****/
-        public ulong RejectReasonId { get; set; }
+        public bool Enabled { get; set; }
+        public bool Rejected { get; set; }
+        public bool Confirmed { get; set; } /***** For Questions That Players Create ****/
         public ulong? CreatorPlayerId { get; set; } /*****The player who Create Question******/
     }
 }

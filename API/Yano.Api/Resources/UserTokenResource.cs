@@ -7,8 +7,7 @@ namespace Yano.Api.Resources
 {
     public class UserTokenResource
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Fullname { get; set; }
         public string Username { get; set; }
         public string Token { get; set; }
     }

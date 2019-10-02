@@ -31,10 +31,26 @@ namespace Yano.Api.Controllers
             return new UserTokenResource
             {
                 Username = user.Username,
-                FirstName = user.Firstname,
-                LastName = user.Lastname,
+                Fullname = user.FullName,
                 Token = user.Token
             };
+        }
+
+        [HttpPost]
+        [Route("register")]
+        [AllowAnonymous]
+        public async Task<Player> Register([FromBody] RegisterResource regsiter)
+        {
+            var player = await _service.RegisterPlayer(
+                regsiter.Fullname,
+                regsiter.Email,
+                regsiter.Phone,
+                regsiter.Age,
+                regsiter.Gender,
+                regsiter.Username,
+                regsiter.Password
+            );
+            return player;
         }
 
         // GET api/values
@@ -54,16 +70,17 @@ namespace Yano.Api.Controllers
 
         [HttpPost]
         [Route("player/answer")]
-        [AllowAnonymous]
-        public async Task<QuestionStatResource> Answer([FromBody] AnswerResource answer)
+        public async void Answer([FromBody] AnswerResource answer)
         {
-            var a = await _service.Answer(answer.PlayerId, answer.QuestionId, answer.Answer);
-            return new QuestionStatResource
-            {
-                Count = a.Count,
-                No = a.No,
-                Yes = a.Yes
-            };
+            await _service.Answer(answer.PlayerId, answer.QuestionId, answer.Answer);
+        }
+
+
+        [HttpPost]
+        [Route("player/dislike")]
+        public async void DisLike([FromBody] DisLikeResource answer)
+        {
+            await _service.DisLike(answer.PlayerId, answer.QuestionId, answer.Reason);
         }
 
         [HttpGet]

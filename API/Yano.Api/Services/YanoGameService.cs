@@ -25,6 +25,9 @@ namespace Yano.Api.Services
         protected IMongoCollection<Question> Questions { get => db.GetCollection<Question>("questions"); }
         protected IMongoCollection<Player> Players { get => db.GetCollection<Player>("players"); }
         protected IMongoCollection<PlayerAnswer> PlayerAnswers { get => db.GetCollection<PlayerAnswer>("answers"); }
+
+        protected IFindFluent<Question, Question> ActiveQuestions { get => this.Questions.Find(c => c.Enabled && c.Confirmed); }
+
         private void GenerateMockData()
         {
             if (this.Questions.CountDocuments(c => true) == 0)
@@ -47,8 +50,7 @@ namespace Yano.Api.Services
                 {
                     players.Add(new Player
                     {
-                        Firstname = names.PickRandom(),
-                        Lastname = families.PickRandom(),
+                        FullName = string.Format("{0} {1}", names.PickRandom(), families.PickRandom()),
                         Gender = new List<PlayerGender>() { PlayerGender.Man, PlayerGender.Woman, PlayerGender.Unknown }.PickRandom(),
                         Password = "123",
                         Username = $"User{i + 1}",
@@ -86,14 +88,24 @@ namespace Yano.Api.Services
 
         #region Api Methods
 
-        public Task<Player> RegisterPlayer(string name, string email, int age, PlayerGender gender, string username, string password)
+        public async Task<Player> RegisterPlayer(string fullname, string email, string phone, int age, PlayerGender gender, string username, string password)
         {
-            throw new NotImplementedException();
+            var player = new Player();
+            player.Age = 0;
+            player.Email = email;
+            player.Phone = phone;
+            player.Gender = gender;
+            player.FullName = fullname;
+            player.Enabled = true;
+            player.Password = password;
+            player.Username = username;
+            await this.Players.InsertOneAsync(player);
+            return player;
         }
 
         public async Task<Player> LoginPlayer(string username, string password)
         {
-            var user = Players.FindSync(x => x.Username == username && x.Password == password).FirstOrDefault();
+            var user = await Players.Find(x => x.Username == username && x.Password == password).FirstOrDefaultAsync();
 
             // return null if user not found
             if (user == null)
@@ -120,41 +132,57 @@ namespace Yano.Api.Services
         {
             try
             {
-                return await this.Questions.FindSync(c => true).ToListAsync();
+                var last = this.PlayerAnswers.Find(c => c.Id == playerId).SortByDescending(c => c.Id).FirstOrDefault();
+                ulong lastId = 0;
+                if (last != null)
+                    lastId = last.Id;
+                var res = this.Questions.Find(c =>  c.Id > lastId).Limit(20);
+                return await res.ToListAsync();
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }
 
         public async Task<IEnumerable<Question>> GetGuestQuestions()
         {
-            return await this.Questions.FindSync(c => true).ToListAsync();
+            return await this.Questions.Find(c => true).Limit(10).ToListAsync();
         }
 
-        public Task<QuestionStat> Answer(ulong playerId, ulong questionId, Answer answer)
+        public async Task Answer(ulong playerId, ulong questionId, Answer answer)
         {
-            //this.PlayerAnswers.InsertOne(new PlayerAnswer
-            //{
-            //    PlayerId = playerId,
-            //    QuestionId = questionId,
-            //    Answer = answer
-            //});
-            throw new Exception();
+            this.PlayerAnswers.InsertOne(new PlayerAnswer
+            {
+                PlayerId = playerId,
+                QuestionId = questionId,
+                Answer = answer
+            });
+            //
+            var filter = Builders<Question>.Filter.Eq(x => x.Id, questionId);
+            UpdateDefinition<Question> update = null;
+            if (answer == Yano.Api.Domain.Models.Answer.No)
+                update = Builders<Question>.Update.Inc(x => x.No, (ulong)1).Inc(x => x.Count, (ulong)1);
+            if (answer == Yano.Api.Domain.Models.Answer.Yes)
+                update = Builders<Question>.Update.Inc(x => x.Yes, (ulong)1).Inc(x => x.Count, (ulong)1);
+            //
+            await Questions.UpdateOneAsync(filter, update);
         }
 
-        public void Like(ulong playerId, ulong questionId)
+        public async Task DisLike(ulong playerId, ulong questionId, string reason)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Question>.Filter.Eq(x => x.Id, questionId);
+            var update = Builders<Question>.Update.Inc(x => x.DisLike, (ulong)1);
+            await this.PlayerAnswers.InsertOneAsync(new PlayerAnswer
+            {
+                PlayerId = playerId,
+                QuestionId = questionId,
+                Answer = Yano.Api.Domain.Models.Answer.DisLike,
+                DisLikeReason = reason
+            });
+            await Questions.UpdateOneAsync(filter, update);
         }
-
-        public void DisLike(ulong playerId, ulong questionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
+
+    #endregion
 }

@@ -9,6 +9,6 @@ namespace Yano.Api.Domain.Models
     {
         Yes,
         No,
-        Skip,
+        DisLike,
     }
 }

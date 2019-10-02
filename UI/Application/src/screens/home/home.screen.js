@@ -58,8 +58,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: width,
         borderWidth: 10,
-        borderColor: "#73E550",
-        marginTop: -50
+        borderColor: "#73E550"
     },
     menuButton: {
         width: 100,

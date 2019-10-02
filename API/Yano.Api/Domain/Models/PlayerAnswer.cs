@@ -7,5 +7,6 @@
         public ulong PlayerId { get; set; }
 
         public Answer Answer { get; set; }
+        public string DisLikeReason { get; set; }
     }
 }
