@@ -1,3 +1,4 @@
 import { Logo,LogoText } from './logo'
-
-export { Logo,LogoText }
+import {HeaderBar} from './headerbar'
+import {Chips} from './chips'
+export { Logo, LogoText, HeaderBar, Chips }

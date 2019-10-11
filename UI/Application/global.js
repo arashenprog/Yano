@@ -6,10 +6,18 @@ module.exports = {
         white:"#fff",
         whiteFore:"#000",
 
-        primary:"#f00",
-        primaryLight:"#f00",
-        primaryDark:"#f00",
+        primary:"#e12ae8",
+        primaryLight:"#fb41f5",
+        primaryDark:"#d120d7",
         primaryFore:"#fff",
+
+        
+        secondary:"#1caeed",
+        secondaryLight:"#38c3ff",
+        secondaryDark:"#54b0fe",
+        secondaryFore:"#fff",
+
+
     },
     type:{
         fontFamily:"Dana"

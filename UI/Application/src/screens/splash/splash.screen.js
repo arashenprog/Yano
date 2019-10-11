@@ -15,11 +15,12 @@ export class SplashScreen extends React.PureComponent {
 
     }
     componentDidMount() {
-        StatusBar.setHidden(true)
-        I18nManager.allowRTL(false)
-        I18nManager.forceRTL(false)
+        StatusBar.setHidden(true);
+        I18nManager.allowRTL(false);
+        I18nManager.forceRTL(false);
         YellowBox.ignoreWarnings(["Warning:"])
     }
+
     render() { 
         setTimeout(() => {
             this.setState({ showLogoText: false })
@@ -41,9 +42,9 @@ export class SplashScreen extends React.PureComponent {
                     }}>
                     {
                         this.state.showLogoText ? (
-                            <LogoText style={{ marginTop: 20 }} fill={g.colors.blackFore} width={150} height={150} />
+                            <LogoText style={{ marginTop: 20 }} fill={g.colors.blackFore} width={100} height={100} />
                         ) :
-                            <Logo fill={g.colors.blackFore} width={150} height={150} />
+                            <Logo fill={g.colors.blackFore} width={100} height={100} />
                     }
                 </Animatable.View>
             </View>
