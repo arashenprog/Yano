@@ -18,8 +18,5 @@ export default class GameScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    logoText:{
-        fontSize: g.sizes.lg,
-        fontFamily: g.type.fontFamily,
-    }
+
 })
