@@ -29,6 +29,10 @@ export default class GameHeader extends React.PureComponent {
                          text="رتبه : 100"
                          rightIcon="star-circle"
                          type="secondary"></Chips>
+                          {/* <Chips
+                         text="سکه : 2000"
+                         rightIcon="coins"
+                         type="warning"></Chips> */}
                      </HeaderBar>
                    );
                  }
@@ -40,6 +44,6 @@ export default class GameHeader extends React.PureComponent {
 const styles = StyleSheet.create({
     logoText:{
         fontSize: g.sizes.lg,
-        fontFamily: g.type.fontFamily,
+        fontFamily: g.type.fontFamilyBlack,
     }
 })

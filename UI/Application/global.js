@@ -6,6 +6,12 @@ module.exports = {
         white:"#fff",
         whiteFore:"#000",
 
+        grey:"#9E9E9E",
+        greyLight:"#BDBDBD",
+        greyDark:"#424242",
+
+
+
         primary:"#e12ae8",
         primaryLight:"#fb41f5",
         primaryDark:"#d120d7",
@@ -18,9 +24,18 @@ module.exports = {
         secondaryFore:"#fff",
 
 
+        warning:"#F9A825",
+        warningLight:"#FDD835",
+        warningDark:"#FFEE58",
+        warningFore:"#fff",
+
     },
     type:{
-        fontFamily:"Dana"
+        fontFamily:"Dana",
+        fontFamilyBold:"DanaBold",
+        fontFamilyBlack:"DanaBlack"
+
+
     },
     sizes:{
         xs:5,
