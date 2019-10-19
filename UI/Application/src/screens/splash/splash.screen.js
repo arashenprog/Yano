@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StatusBar, I18nManager,YellowBox } from 'react-native'
+import { View, StatusBar, I18nManager, YellowBox } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 import * as Animatable from 'react-native-animatable'
 import { Player } from '@react-native-community/audio-toolkit';
@@ -21,7 +21,7 @@ export class SplashScreen extends React.PureComponent {
         YellowBox.ignoreWarnings(["Warning:"])
     }
 
-    render() { 
+    render() {
         setTimeout(() => {
             this.setState({ showLogoText: false })
         }, 1500)
@@ -35,10 +35,10 @@ export class SplashScreen extends React.PureComponent {
                         this.playSound()
                     }}
                     onAnimationEnd={() => {
-                         this.props.navigation.dispatch(StackActions.reset({
-                             index: 0,
-                             actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                         }));
+                        this.props.navigation.dispatch(StackActions.reset({
+                            index: 0,
+                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                        }));
                     }}>
                     {
                         this.state.showLogoText ? (
@@ -53,7 +53,9 @@ export class SplashScreen extends React.PureComponent {
     playSound() {
         let s = new Player("splash.mp3")
         s.play((err) => {
-            console.log("Sound Error", err)
+            if (err)
+                console.log("Sound Error", err)
+            console.log("Sound Played")
         })
     }
 }

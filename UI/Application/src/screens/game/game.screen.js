@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Dimensions } from 'react-native'
+import { PieChart } from 'react-native-svg-charts'
 import { CircleButton } from '../../components'
-
 import GameHeader from './game.header'
 import g from '../../../global'
+
 let { width, height } = Dimensions.get("window");
 let baseHeight = (height - 50) / 2;
-export default class GameScreen extends Component {
+
+export default class GameScreen extends React.PureComponent {
   static navigationOptions = {
     header: null
   }
@@ -16,35 +18,49 @@ export default class GameScreen extends Component {
   componentDidMount() {
     console.log(baseHeight)
   }
+  handlePressButton = () => {
+    this.setState({ showChart: true })
+  }
   render() {
+    const data = [50, 10]
+    const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
+    const pieData = data
+      .filter(value => value > 0)
+      .map((value, index) => ({
+        value,
+        svg: {
+          fill: randomColor(),
+          onPress: () => console.log('press', index),
+        },
+        key: `pie-${index}`,
+      }))
     return (
       <SafeAreaView style={styles.container}>
         <GameHeader />
         <View style={styles.questionContainer}>
           <Text style={styles.questionText}>آیا شما از قد خود ناراضی هستید ؟</Text>
         </View>
-        <View style={styles.controllContainer}>
-          {!this.state.showChart
+ 
+          {this.state.showChart
             ?
             (
-              <React.Fragment>
-                 <CircleButton style={{ backgroundColor: g.colors.primary }} textStyle={{ color: g.colors.white }} text="نه" onPress={() => {
-                  alert("نه")
-                }}></CircleButton>
-                <CircleButton style={{ backgroundColor: g.colors.secondary }} textStyle={{ color: g.colors.white }} text="آره" onPress={() => {
-                  alert("آره")
-                }}></CircleButton>
-              </React.Fragment>
+              <View style={styles.controllContainer}>
+                <CircleButton style={{ backgroundColor: g.colors.primary }} textStyle={{ color: g.colors.white }} text="نه" onPress={this.handlePressButton}></CircleButton>
+                <CircleButton style={{ backgroundColor: g.colors.secondary }} textStyle={{ color: g.colors.white }} text="آره" onPress={this.handlePressButton}></CircleButton>
+               </View>
             )
             :
             (
-              <React.Fragment>
+                 <View style={styles.chartContainer}>
+                 <PieChart
+                  style={{ width:width/2,height: 200 }}
+                  data={pieData}
+                />
+                 </View>
                
-
-              </React.Fragment>
             )
           }
-        </View>
+       
       </SafeAreaView>
     );
   }
@@ -72,6 +88,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     padding: g.sizes.base
+  },
+  chartContainer: {
+    height: baseHeight,
+    position: 'relative',
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row"
   },
   footerContainer: {
     position: "absolute",
