@@ -31,6 +31,12 @@ namespace Yano.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // For Allow Access Orgin
+            services.AddCors(options => options.AddPolicy("Cors", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //
             services.AddScoped<IYanoGameService, YanoGameService>();
