@@ -4,7 +4,19 @@ import g from '../../../global'
 const HeaderBar = (props) => {
     return (
         <View style={style.container}>
-            {props.children}
+            
+          <View style={{flex:1}}>
+          {props.left}
+          </View>
+          <View style={{flex:2}}>
+          {props.center}
+          </View>
+          <View style={{flex:1}}>
+          {props.right}
+          </View>
+
+            
+            
         </View>
     )
 }
