@@ -19,7 +19,7 @@ const Navigation = createStackNavigator({
   }
 },
   {
-    initialRouteName: "Game"
+    initialRouteName: "Splash"
   });
 
 
