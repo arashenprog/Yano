@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text,StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import g from '../../../global'
+import g from '../../../../global'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 const Chips = (props) => {
     return (

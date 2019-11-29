@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StatusBar, I18nManager, YellowBox } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 import * as Animatable from 'react-native-animatable'
-import { Player } from '@react-native-community/audio-toolkit';
+import Sound from 'react-native-sound'
 import { Logo, LogoText } from '../../components'
 import g from '../../../global'
 
@@ -10,10 +10,15 @@ export class SplashScreen extends React.PureComponent {
     static navigationOptions = {
         header: null
     }
-    state = {
-        showLogoText: true,
 
+    constructor(props){
+        super(props)
+        Sound.setCategory('Ambient');
+        this.state = {
+            showLogoText: true,
+        }
     }
+    
     componentDidMount() {
         StatusBar.setHidden(true);
         I18nManager.allowRTL(false);
@@ -21,10 +26,28 @@ export class SplashScreen extends React.PureComponent {
         YellowBox.ignoreWarnings(["Warning:"])
     }
 
+    playSound() {
+        var splash = new Sound('splash.mp3', Sound.MAIN_BUNDLE, (error) => {
+            if (error) {
+                console.log('failed to load the sound', error);
+                return;
+            }
+            else {
+                splash.setVolume(1)
+                splash.play((success) => {
+                    if (success) {
+                        console.log('successfully finished playing');
+                    } else {
+                        console.log('playback failed due to audio decoding errors');
+                    }
+                });
+            }
+        })
+    }
     render() {
         setTimeout(() => {
             this.setState({ showLogoText: false })
-        }, 1500)
+        }, 2000)
         return (
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: g.colors.black }}>
                 <Animatable.View
@@ -42,21 +65,14 @@ export class SplashScreen extends React.PureComponent {
                     }}>
                     {
                         this.state.showLogoText ? (
-                            <LogoText style={{ marginTop: 20 }} fill={g.colors.blackFore} width={100} height={100} />
+                            <LogoText style={{ marginTop: 20 }} fill={g.colors.darkFore} width={100} height={100} />
                         ) :
-                            <Logo fill={g.colors.blackFore} width={100} height={100} />
+                            <Logo fill={g.colors.darkFore} width={100} height={100} />
                     }
                 </Animatable.View>
             </View>
         )
     }
-    playSound() {
-        let s = new Player("splash.mp3")
-        s.play((err) => {
-            if (err)
-                console.log("Sound Error", err)
-            console.log("Sound Played")
-        })
-    }
+
 }
 export default SplashScreen

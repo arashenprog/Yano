@@ -59,7 +59,7 @@ export default class HomeScreen extends React.PureComponent {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-             this.props.navigation.navigate("Login")
+              this.props.navigation.navigate("Menu")
             }}>
             <LinearGradient
               colors={['#3BD616', '#89EB67']}

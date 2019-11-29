@@ -1,22 +1,10 @@
 import React from 'react'
 import { View, Text,StyleSheet } from 'react-native'
-import g from '../../../global' 
+import g from '../../../../global' 
 const HeaderBar = (props) => {
     return (
         <View style={style.container}>
-            
-          <View style={{flex:1}}>
-          {props.left}
-          </View>
-          <View style={{flex:2}}>
-          {props.center}
-          </View>
-          <View style={{flex:1}}>
-          {props.right}
-          </View>
-
-            
-            
+            {props.children}
         </View>
     )
 }
