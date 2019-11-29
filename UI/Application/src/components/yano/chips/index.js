@@ -1,11 +1,10 @@
 import React from 'react'
-import { View, Text,StyleSheet } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import g from '../../../../global'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 const Chips = (props) => {
     return (
-      <TouchableOpacity onPress={()=>{props.onPress}} activeOpacity={0} style={[style.container, {backgroundColor: g.colors[props.type]}]}>
+      <TouchableOpacity onPress={props.onPress} activeOpacity={0} style={[style.container, {backgroundColor: g.colors[props.type]}]}>
         {props.leftIcon && (
           <Icon
             name={props.leftIcon}

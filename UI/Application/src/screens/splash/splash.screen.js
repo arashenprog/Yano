@@ -47,7 +47,7 @@ export class SplashScreen extends React.PureComponent {
     render() {
         setTimeout(() => {
             this.setState({ showLogoText: false })
-        }, 2000)
+        }, 1400)
         return (
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: g.colors.black }}>
                 <Animatable.View
@@ -65,9 +65,9 @@ export class SplashScreen extends React.PureComponent {
                     }}>
                     {
                         this.state.showLogoText ? (
-                            <LogoText style={{ marginTop: 20 }} fill={g.colors.darkFore} width={100} height={100} />
+                            <LogoText style={{ marginTop: 20 }} fill={g.colors.darkFore} width={120} height={120} />
                         ) :
-                            <Logo fill={g.colors.darkFore} width={100} height={100} />
+                            <Logo fill={g.colors.darkFore} width={120} height={120} />
                     }
                 </Animatable.View>
             </View>

@@ -13,7 +13,7 @@ export default class GameScreen extends React.PureComponent {
     header: null
   }
   state = {
-    showChart: false
+    showChart: true
   }
   componentDidMount() {
     console.log(baseHeight)
@@ -77,9 +77,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   questionText: {
-    fontSize: g.sizes.lg,
+    fontSize: 20,
     fontFamily: g.type.fontFamilyBlack,
-    color: g.colors.greyDark
+    color: g.colors.greyDark,
+    textAlign:"center"
   },
   controllContainer: {
     height: baseHeight,

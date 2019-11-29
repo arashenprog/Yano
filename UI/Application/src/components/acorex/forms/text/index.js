@@ -10,7 +10,7 @@ const AXText = props => {
           fontWeight: "normal",
           fontSize: props.size,
           color: g.colors[props.type],
-          textAlign: g.type.textAlign || props.textAlign
+          textAlign: props.textAlign ? props.textAlign : g.type.textAlign
         },
         { ...props.style }
       ]}

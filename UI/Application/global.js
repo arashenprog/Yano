@@ -64,13 +64,12 @@ module.exports = {
   },
 
   sizes:{
-    xs:5,
-    sm:10,
-    md:15,
-    lg:20,
-    xl:25,
-    base:50,
-    radius:50/2
+    base: 50,
+    radius: 15,
+    xs: 7,
+    sm: 15,
+    md: 30,
+    lg: 50
 },
   type: {
     // fontFamily: Platform.OS == "ios" ? "Dana-Regular" : "DanaRegular",

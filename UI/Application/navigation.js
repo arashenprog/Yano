@@ -9,8 +9,8 @@ import HomeScreen from "./src/screens/home/home.screen";
 import GameScreen from "./src/screens/game/game.screen";
 import MenuScreen from "./src/screens/menu/menu.screen";
 import RegisterScreen from "./src/screens/account/register/register.screen";
+import LoginScreen from './src/screens/account/login/login.screen';
 
-import g from './global'
 
 const Routes = createStackNavigator({
   Splash: {
@@ -27,6 +27,9 @@ const Routes = createStackNavigator({
   },
   Register: {
     screen: RegisterScreen
+  },
+  Login: {
+    screen: LoginScreen
   }
 },
   {

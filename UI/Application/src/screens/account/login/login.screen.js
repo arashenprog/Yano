@@ -5,7 +5,7 @@ let { width, height } = Dimensions.get('window');
 
 import LogoText from '../../../assets/images/logotext.png';
 
-export class RegisterScreen extends Component {
+export class LoginScreen extends Component {
     static navigationOptions = {
         header: null
     }
@@ -25,26 +25,24 @@ export class RegisterScreen extends Component {
                         style={{ width: width / 3, height: width / 3, marginBottom: 5, marginTop: 20 }}
                         resizeMode="contain"
                     />
-                    <AXText type="secondary" size={18} text="ثبت نام"></AXText>
-                    <AXText textAlign="center" text="با یک بار ثبت نام میتوانید از تمامی بازی های گروه جعبه سیاه لذت ببرید"></AXText>
+                    <AXText type="secondary" size={18} text="ورود به حساب کاربری"></AXText>
+                    <AXText textAlign="center" text="اگر قبلا در یکی از بازی های گروه جعبه سیاه یا در یانو ثبت نام کرده اید لطفا اطلاعت خود را وارد کنید"></AXText>
 
                 </AXView>
                 <AXView style={{ paddingStart: 50, paddingEnd: 50 }}>
                     <AXInput showClear={true} placeholder="شماره همراه (مثلا *******091)"></AXInput>
                     <AXInput showClear={true} placeholder="رمز عبور"></AXInput>
-                    <AXInput showClear={true} placeholder="تکرار رمز عبور"></AXInput>
                     <AXView style={{marginTop:40}}></AXView>
-
-                    <AXButton onPress={this.doRegister} type="secondary" text="ثبت نام"></AXButton>
+                    <AXButton onPress={()=>{this.doLogin()}}type="secondary" text="ورود"></AXButton>
+                    <AXButton onPress={()=>{this.props.navigation.navigate("Register")}} type="warning" text="قبلا ثبت نام نکرده ام"></AXButton>
                     <AXButton onPress={()=>{this.props.navigation.navigate("Home")}} text="بازگشت"></AXButton>
-
                 </AXView>
             </AXScroll>
         )
     }
-    doRegister(){}
+    doLogin(){}
 }
 const styles = StyleSheet.create({
 
 });
-export default RegisterScreen
+export default LoginScreen

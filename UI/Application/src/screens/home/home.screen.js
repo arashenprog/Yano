@@ -33,7 +33,7 @@ export default class HomeScreen extends React.PureComponent {
         <View style={styles.topContainer}>
           <Image
             source={LogoText}
-            style={{width: width / 2, height: width / 2}}
+            style={{width: width / 2.5, height: width / 2.5}}
             resizeMode="contain"
           />
           <Text
@@ -44,8 +44,8 @@ export default class HomeScreen extends React.PureComponent {
             }}>
             خوش اومدی
           </Text>
-          <Text style={{fontSize: 24, fontFamily: g.type.fontFamily}}>
-            مهمان 204
+          <Text style={{fontSize: 18, fontFamily: g.type.fontFamily}}>
+           شما به صورت مهمان وارد شده اید
           </Text>
         </View>
         <View style={styles.bottomContainer}>
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     height: height / 2,
   },
   startButton: {
-    width: width / 2.5,
-    height: width / 2.5,
+    width: width / 3,
+    height: width / 3,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: width,
@@ -96,12 +96,12 @@ const styles = StyleSheet.create({
     borderColor: '#73E550',
   },
   menuButton: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: width,
-    borderWidth: 10,
+    borderWidth: 3,
     borderColor: g.colors.white,
     marginTop: -30,
   },
