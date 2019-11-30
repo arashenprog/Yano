@@ -1,4 +1,5 @@
 import { Logo, LogoText } from './yano/logo'
+import { Avatar } from './yano/avatar'
 import { HeaderBar } from './yano/headerbar'
 import { Chips } from './yano/chips'
 import { CircleButton } from './yano/circleButton';
@@ -26,6 +27,7 @@ import { AXContainer, AXScroll, AXView } from "./acorex/layout";
 export {
     Logo,
     LogoText,
+    Avatar,
     HeaderBar,
     Chips,
     CircleButton,

@@ -7,6 +7,7 @@ const AXItem = props => {
     <TouchableOpacity
       activeOpacity={100}
       style={[styles.container, { ...props.style }]}
+      onPress={props.onPress}
     >
       <View
         style={[styles.circleIcon, { backgroundColor: g.colors[props.type] }]}

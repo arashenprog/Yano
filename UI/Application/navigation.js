@@ -33,7 +33,7 @@ const Routes = createStackNavigator({
   }
 },
   {
-    initialRouteName: 'Splash'
+    initialRouteName: 'Menu'
   });
 
 const RoutedApp = createAppContainer(Routes);

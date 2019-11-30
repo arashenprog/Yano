@@ -36,17 +36,15 @@ export default class HomeScreen extends React.PureComponent {
             style={{width: width / 2.5, height: width / 2.5}}
             resizeMode="contain"
           />
-          <Text
+          <AXText
+            text=" خوش اومدی"
             style={{
               fontSize: 16,
               marginTop: 20,
               fontFamily: g.type.fontFamily,
             }}>
-            خوش اومدی
-          </Text>
-          <Text style={{fontSize: 18, fontFamily: g.type.fontFamily}}>
-           شما به صورت مهمان وارد شده اید
-          </Text>
+          </AXText>
+          <AXText text=" شما به صورت مهمان وارد شده اید" style={{fontSize: 18, fontFamily: g.type.fontFamily}}></AXText>
         </View>
         <View style={styles.bottomContainer}>
           <TouchableOpacity onPress={this.onPlayGame} activeOpacity={0.5}>
