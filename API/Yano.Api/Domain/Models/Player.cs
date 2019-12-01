@@ -9,6 +9,10 @@ namespace Yano.Api.Domain.Models
     {
         public string FullName { get; set; }
 
+        // TODO : Created Date ????
+
+        public DateTime CreatedDate { get; set; }
+
         public PlayerGender Gender { get; set; }
         public int Age { get; set; }
         public string Email { get; set; }

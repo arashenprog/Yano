@@ -103,6 +103,8 @@ namespace Yano.Api.Services
             return player;
         }
 
+        
+
         public async Task<Player> LoginPlayer(string username, string password)
         {
             var user = await Players.Find(x => x.Username == username && x.Password == password).FirstOrDefaultAsync();
@@ -181,6 +183,24 @@ namespace Yano.Api.Services
                 DisLikeReason = reason
             });
             await Questions.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<Player> UpdateProfile(ulong playerId, string name, string email, string phone, int age, PlayerGender gender, string username, string password)
+        {
+            var user = await Players.Find(x => x.Id == playerId).FirstOrDefaultAsync();
+
+            if (user == null)
+                return null;
+
+            user.FullName = name;
+            user.Email = email;
+            user.Phone = phone;
+            user.Age = age;
+            user.Gender = gender;
+            user.Username = phone;
+            user.Password = password;
+
+            return user;
         }
     }
 

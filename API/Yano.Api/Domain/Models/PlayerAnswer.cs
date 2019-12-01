@@ -1,4 +1,6 @@
-﻿namespace Yano.Api.Domain.Models
+﻿using System;
+
+namespace Yano.Api.Domain.Models
 {
     public class PlayerAnswer : BaseModel
     {
@@ -6,6 +8,9 @@
 
         public ulong PlayerId { get; set; }
 
+        // TODO :  Date ????
+
+        public DateTime Date { get; set; } 
         public Answer Answer { get; set; }
         public string DisLikeReason { get; set; }
     }
