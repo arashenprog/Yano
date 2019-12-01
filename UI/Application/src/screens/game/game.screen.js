@@ -1,8 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Dimensions } from 'react-native'
 import { PieChart } from 'react-native-svg-charts'
-import { CircleButton } from '../../components'
-import GameHeader from './game.header'
+import { CircleButton,HeaderBar,Chips } from '../../components'
 import g from '../../../global'
 
 let { width, height } = Dimensions.get("window");
@@ -13,7 +12,7 @@ export default class GameScreen extends React.PureComponent {
     header: null
   }
   state = {
-    showChart: true
+    showChart: false
   }
   componentDidMount() {
     console.log(baseHeight)
@@ -36,12 +35,43 @@ export default class GameScreen extends React.PureComponent {
       }))
     return (
       <SafeAreaView style={styles.container}>
-        <GameHeader />
+        <HeaderBar
+        left={
+          <Chips
+            onPress={() => {
+              this.onBack()
+            }}
+            text="بازگشت"
+            leftIcon="arrow-left"
+            type="primary"></Chips>
+        }
+        center={
+          <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <Text
+              style={[styles.logoText, { color: g.colors.primary }]}>
+              نو
+            </Text>
+            <Text
+              style={[
+                styles.logoText,
+                { color: g.colors.secondary },
+              ]}>
+              یا
+            </Text>
+          </View>
+        }
+        right={
+          <Chips
+            text="رتبه : 100"
+            rightIcon="star-circle"
+            type="secondary"></Chips>
+        }>
+      </HeaderBar>
         <View style={styles.questionContainer}>
           <Text style={styles.questionText}>آیا شما از قد خود ناراضی هستید ؟</Text>
         </View>
  
-          {this.state.showChart
+          {!this.state.showChart
             ?
             (
               <View style={styles.controllContainer}>
@@ -63,6 +93,10 @@ export default class GameScreen extends React.PureComponent {
        
       </SafeAreaView>
     );
+  }
+  onBack = () => {
+    debugger
+    this.props.navigation.navigate("Home")
   }
 }
 
@@ -103,4 +137,8 @@ const styles = StyleSheet.create({
     width: width,
     bottom: 0
   },
+  logoText: {
+    fontSize: g.sizes.md,
+    fontFamily: g.type.fontFamilyBlack,
+  }
 });

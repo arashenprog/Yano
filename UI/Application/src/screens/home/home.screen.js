@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import LogoText from '../../assets/images/logotext.png';
 import g from '../../../global';
+import { AXText } from '../../components';
 let {width, height} = Dimensions.get('window');
 
 export default class HomeScreen extends React.PureComponent {

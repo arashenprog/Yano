@@ -31,7 +31,7 @@ const Chips = (props) => {
 }
 const style = StyleSheet.create({
   container: {
-    height: g.sizes.base / 2,
+    height: g.sizes.base / 1.5,
     display: 'flex',
     flexDirection: 'row',
     alignItems:"center",
