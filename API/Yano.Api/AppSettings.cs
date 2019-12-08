@@ -8,5 +8,9 @@ namespace Yano.Api
     public class AppSettings
     {
         public string Secret { get; set; }
+        public string Connection { get; set; }
     }
+
+
+   
 }
