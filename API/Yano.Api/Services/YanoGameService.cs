@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Dapper;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using System;
@@ -20,6 +21,9 @@ namespace Yano.Api.Services
 
         MongoClient client;
         string connectionString = "mongodb://localhost:27017";
+
+        string _yanoConnection;
+
         IMongoDatabase db;
 
         protected IMongoCollection<Question> Questions { get => db.GetCollection<Question>("questions"); }
@@ -28,42 +32,7 @@ namespace Yano.Api.Services
 
         protected IFindFluent<Question, Question> ActiveQuestions { get => this.Questions.Find(c => c.Enabled && c.Confirmed); }
 
-        private void GenerateMockData()
-        {
-            if (this.Questions.CountDocuments(c => true) == 0)
-            {
-                var question = new List<Question>();
-                for (int i = 0; i < 1000; i++)
-                {
-                    question.Add(new Question
-                    {
-                        Title = $"سوال شماره {i}?"
-                    });
-                }
-                this.Questions.InsertManyAsync(question);
-                //
-                var names = new string[] { "مسعود", "آرش", "هومن", "رضا", "علی", "فرزانه", "الناز", "قرنوش", "شقایق", "مریم", "مینا" };
-                var families = new string[] { "اصغری", "اکبری", "رضایی", "کیان", "فراهانی", "حسینی", "نادری", "کیانی", "توکلی", "اشنودی", "آقایی", "صفری" };
-                var players = new List<Player>();
-                var random = new Random();
-                for (int i = 0; i < 500; i++)
-                {
-                    players.Add(new Player
-                    {
-                        FullName = string.Format("{0} {1}", names.PickRandom(), families.PickRandom()),
-                        Gender = new List<PlayerGender>() { PlayerGender.Man, PlayerGender.Woman, PlayerGender.Unknown }.PickRandom(),
-                        Password = "123",
-                        Username = $"User{i + 1}",
-                        Email = $"User{i + 1}@gmail.com",
-                        Age = random.Next(10, 70)
-                    });
-                }
-                this.Players.InsertManyAsync(players);
-                //
 
-
-            }
-        }
 
         #endregion
 
@@ -73,13 +42,11 @@ namespace Yano.Api.Services
         public YanoGameService(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
+
             this.client = new MongoClient(connectionString);
             db = client.GetDatabase("yano");
-            if (true)
-            {
-                //TODO: Generate mock data
-                GenerateMockData();
-            }
+            //
+            _yanoConnection = _appSettings.Connection;
         }
 
         #endregion
@@ -90,20 +57,28 @@ namespace Yano.Api.Services
 
         public async Task<Player> RegisterPlayer(string fullname, string email, string phone, int age, PlayerGender gender, string username, string password)
         {
-            var player = new Player();
-            player.Age = 0;
-            player.Email = email;
-            player.Phone = phone;
-            player.Gender = gender;
-            player.FullName = fullname;
-            player.Enabled = true;
-            player.Password = password;
-            player.Username = username;
-            await this.Players.InsertOneAsync(player);
-            return player;
+            using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
+            {
+                var player = new Player();
+                player.Age = age;
+                player.Email = email;
+                player.Phone = phone;
+                player.Gender = gender;
+                player.FullName = fullname;
+                player.Enabled = true;
+                player.Password = password;
+                player.Username = username;
+                await conn.ExecuteAsync(@"
+                            INSERT INTO dbo.Players (age,email,phone,Gender,fullname,enabled,password,username) 
+                            VALUES (@Age,@Email,@Phone,@Gender,@FullName,@Enabled,@Password,@Username)", 
+                            player);
+                return player;
+            }
+            //await this.Players.InsertOneAsync(player);
+
         }
 
-        
+
 
         public async Task<Player> LoginPlayer(string username, string password)
         {
@@ -138,7 +113,7 @@ namespace Yano.Api.Services
                 ulong lastId = 0;
                 if (last != null)
                     lastId = last.Id;
-                var res = this.Questions.Find(c =>  c.Id > lastId).Limit(20);
+                var res = this.Questions.Find(c => c.Id > lastId).Limit(20);
                 return await res.ToListAsync();
             }
             catch (Exception e)
@@ -149,7 +124,12 @@ namespace Yano.Api.Services
 
         public async Task<IEnumerable<Question>> GetGuestQuestions()
         {
-            return await this.Questions.Find(c => true).Limit(10).ToListAsync();
+            using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
+            {
+                return await conn.QueryAsync<Question>("SELECT TOP 10 * FROM dbo.Questions");
+            }
+
+            //return await this.Questions.Find(c => true).Limit(10).ToListAsync();
         }
 
         public async Task Answer(ulong playerId, ulong questionId, Answer answer)

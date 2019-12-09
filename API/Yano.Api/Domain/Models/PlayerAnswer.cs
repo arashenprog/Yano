@@ -8,9 +8,7 @@ namespace Yano.Api.Domain.Models
 
         public ulong PlayerId { get; set; }
 
-        // TODO :  Date ????
-
-        public DateTime Date { get; set; } 
+        public DateTime AnswerTime { get; set; } 
         public Answer Answer { get; set; }
         public string DisLikeReason { get; set; }
     }
