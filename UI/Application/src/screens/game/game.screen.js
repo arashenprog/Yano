@@ -1,18 +1,20 @@
 import React from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Dimensions } from 'react-native'
 import { PieChart } from 'react-native-svg-charts'
-import { CircleButton,HeaderBar,Chips } from '../../components'
+import { AXView, HeaderBar, Chips, FadeInButton, AXText } from '../../components'
 import g from '../../../global'
 
 let { width, height } = Dimensions.get("window");
-let baseHeight = (height - 50) / 2;
+let baseHeight = (height - 50) / 3;
 
 export default class GameScreen extends React.PureComponent {
   static navigationOptions = {
     header: null
   }
   state = {
-    showChart: false
+    showChart: false,
+    yes:true,
+    no:true
   }
   componentDidMount() {
     console.log(baseHeight)
@@ -36,61 +38,52 @@ export default class GameScreen extends React.PureComponent {
     return (
       <SafeAreaView style={styles.container}>
         <HeaderBar
-        left={
-          <Chips
-            onPress={() => {
-              this.onBack()
-            }}
-            text="بازگشت"
-            leftIcon="arrow-left"
-            type="primary"></Chips>
-        }
-        center={
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <Text
-              style={[styles.logoText, { color: g.colors.primary }]}>
-              نو
+          left={
+            <Chips
+              onPress={() => {
+                this.onBack()
+              }}
+              text="بازگشت"
+              leftIcon="arrow-left"
+              type="primary"></Chips>
+          }
+          center={
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+              <Text
+                style={[styles.logoText, { color: g.colors.primary }]}>
+                نو
             </Text>
-            <Text
-              style={[
-                styles.logoText,
-                { color: g.colors.secondary },
-              ]}>
-              یا
+              <Text
+                style={[
+                  styles.logoText,
+                  { color: g.colors.secondary },
+                ]}>
+                یا
             </Text>
-          </View>
-        }
-        right={
-          <Chips
-            text="رتبه : 100"
-            rightIcon="star-circle"
-            type="secondary"></Chips>
-        }>
-      </HeaderBar>
+            </View>
+          }
+          right={
+            <Chips
+              text="رتبه : 100"
+              rightIcon="star-circle"
+              type="secondary"></Chips>
+          }>
+        </HeaderBar>
         <View style={styles.questionContainer}>
           <Text style={styles.questionText}>آیا شما از قد خود ناراضی هستید ؟</Text>
         </View>
- 
-          {!this.state.showChart
-            ?
-            (
-              <View style={styles.controllContainer}>
-                <CircleButton style={{ backgroundColor: g.colors.primary }} textStyle={{ color: g.colors.white }} text="نه" onPress={this.handlePressButton}></CircleButton>
-                <CircleButton style={{ backgroundColor: g.colors.secondary }} textStyle={{ color: g.colors.white }} text="آره" onPress={this.handlePressButton}></CircleButton>
-               </View>
-            )
-            :
-            (
-                 <View style={styles.chartContainer}>
-                 <PieChart
-                  style={{ width:width/2,height: 200 }}
-                  data={pieData}
-                />
-                 </View>
-               
-            )
-          }
-       
+
+        <AXView style={{ flexDirection: "row" }} >
+          {this.state.yes && (<FadeInButton onPress={()=>{this.setState({no:false})}} height={baseHeight * 2} style={{ backgroundColor: g.colors.secondary, height: 100 }}>
+            <AXText text="آره"></AXText>
+          </FadeInButton>)}
+          {this.state.no && (<FadeInButton onPress={()=>{this.setState({yes:false})}} height={baseHeight * 2} style={{ backgroundColor: g.colors.primary, height: 100 }}>
+            <AXText text="نه"></AXText>
+          </FadeInButton>)}
+
+          
+        </AXView>
+
       </SafeAreaView>
     );
   }
@@ -114,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: g.type.fontFamilyBlack,
     color: g.colors.greyDark,
-    textAlign:"center"
+    textAlign: "center"
   },
   controllContainer: {
     height: baseHeight,
@@ -122,7 +115,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    padding: g.sizes.base
+    padding: g.sizes.base,
   },
   chartContainer: {
     height: baseHeight,
@@ -131,12 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row"
   },
-  footerContainer: {
-    position: "absolute",
-    height: 50,
-    width: width,
-    bottom: 0
-  },
+
   logoText: {
     fontSize: g.sizes.md,
     fontFamily: g.type.fontFamilyBlack,

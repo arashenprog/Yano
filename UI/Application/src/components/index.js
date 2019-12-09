@@ -3,6 +3,8 @@ import { Avatar } from './yano/avatar'
 import { HeaderBar } from './yano/headerbar'
 import { Chips } from './yano/chips'
 import { CircleButton } from './yano/circleButton';
+import { FadeInButton } from './yano/fadeinButton';
+
 import {
     AXButton,
     AXCircleIcon,
@@ -19,7 +21,7 @@ import {
     AXSelect,
     AXCheckBox,
     AXCheckItem,
-    AXSeparator
+    AXSeparator,
 } from "./acorex/forms";
 import { AXPopup, AXDialog } from "./acorex/popup";
 import { AXContainer, AXScroll, AXView } from "./acorex/layout";
@@ -31,6 +33,7 @@ export {
     HeaderBar,
     Chips,
     CircleButton,
+    FadeInButton,
     AXButton,
     AXCircleIcon,
     AXIcon,

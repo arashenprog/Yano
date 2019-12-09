@@ -1,7 +1,7 @@
 import React from 'react'
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from 'react-navigation-stack';
-import {mapping, light as lightTheme} from '@eva-design/eva';
+import { mapping, light as lightTheme } from '@eva-design/eva';
 import { ApplicationProvider } from 'react-native-ui-kitten';
 
 import SplashScreen from './src/screens/splash/splash.screen'
@@ -10,6 +10,7 @@ import GameScreen from "./src/screens/game/game.screen";
 import MenuScreen from "./src/screens/menu/menu.screen";
 import RegisterScreen from "./src/screens/account/register/register.screen";
 import LoginScreen from './src/screens/account/login/login.screen';
+import TestScreen from './src/screens/test/test.screen';
 
 
 const Routes = createStackNavigator({
@@ -30,10 +31,13 @@ const Routes = createStackNavigator({
   },
   Login: {
     screen: LoginScreen
+  },
+  Test: {
+    screen: TestScreen
   }
 },
   {
-    initialRouteName: 'Splash'
+    initialRouteName: 'Test'
   });
 
 const RoutedApp = createAppContainer(Routes);
@@ -42,7 +46,7 @@ export default class Navigation extends React.Component {
 
   render() {
     return (
-        <RoutedApp />
+      <RoutedApp />
     );
   }
 }
