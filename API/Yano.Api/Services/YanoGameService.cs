@@ -70,7 +70,7 @@ namespace Yano.Api.Services
                 player.Username = username;
                 await conn.ExecuteAsync(@"
                             INSERT INTO dbo.Players (age,email,phone,Gender,fullname,enabled,password,username) 
-                            VALUES (@Age,@Email,@Phone,@Gender,@FullName,@Enabled,@Password,@Username)", 
+                            VALUES (@Age,@Email,@Phone,@Gender,@FullName,@Enabled,@Password,@Username)",
                             player);
                 return player;
             }
@@ -109,12 +109,17 @@ namespace Yano.Api.Services
         {
             try
             {
-                var last = this.PlayerAnswers.Find(c => c.Id == playerId).SortByDescending(c => c.Id).FirstOrDefault();
-                ulong lastId = 0;
-                if (last != null)
-                    lastId = last.Id;
-                var res = this.Questions.Find(c => c.Id > lastId).Limit(20);
-                return await res.ToListAsync();
+                //var last = this.PlayerAnswers.Find(c => c.Id == playerId).SortByDescending(c => c.Id).FirstOrDefault();
+                //ulong lastId = 0;
+                //if (last != null)
+                //    lastId = last.Id;
+                //var res = this.Questions.Find(c => c.Id > lastId).Limit(20);
+                //return await res.ToListAsync();
+                var parameters = new { PlayerId = Convert.ToInt64(playerId) };
+                using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
+                {
+                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId from [App].[GetNextQuestionSerie](@PlayerId)", parameters);
+                }
             }
             catch (Exception e)
             {
@@ -124,9 +129,17 @@ namespace Yano.Api.Services
 
         public async Task<IEnumerable<Question>> GetGuestQuestions()
         {
-            using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
+            try
             {
-                return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,CategoryId from app.GetGuessQuestions()");
+                using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
+                {
+                    var parameters = new { Level = 1 };
+                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId from app.GetGuessQuestions(@Level)",parameters);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
 
             //return await this.Questions.Find(c => true).Limit(10).ToListAsync();

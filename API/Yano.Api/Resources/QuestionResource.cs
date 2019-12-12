@@ -14,5 +14,7 @@ namespace Yano.Api.Resources
         public ulong No { get; set; }
         public ulong DisLike { get; set; }
         public ulong CategoryId { get; set; }
+        public ulong Level { get; set; }
+
     }
 }

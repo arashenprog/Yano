@@ -67,10 +67,13 @@ namespace Yano.Api.Controllers
                 CategoryId = c.CategoryId,
                 Yes = c.Yes,
                 No = c.No,
-                DisLike = c.DisLike
+                DisLike = c.DisLike,
+                Level = c.Level
+
             });
         }
 
+       
 
         [HttpPost]
         [Route("player/answer")]
@@ -89,13 +92,19 @@ namespace Yano.Api.Controllers
 
         [HttpGet]
         [Route("player/{playerid}")]
+        [AllowAnonymous]
         public async Task<IEnumerable<QuestionResource>> GetPlayerQuestions(ulong playerid)
         {
             var questions = await _service.GetNextQuestions(playerid);
             return questions.Select(c => new QuestionResource
             {
                 Id = c.Id,
-                Title = c.Title
+                Title = c.Title,
+                CategoryId = c.CategoryId,
+                Yes = c.Yes,
+                No = c.No,
+                DisLike = c.DisLike,
+                Level = c.Level
             });
         }
     }
