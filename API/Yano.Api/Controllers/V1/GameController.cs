@@ -92,7 +92,7 @@ namespace Yano.Api.Controllers
 
         [HttpGet]
         [Route("player/{playerid}")]
-        [AllowAnonymous]
+    
         public async Task<IEnumerable<QuestionResource>> GetPlayerQuestions(ulong playerid)
         {
             var questions = await _service.GetNextQuestions(playerid);
