@@ -10,5 +10,9 @@ namespace Yano.Api.Resources
         public ulong Id { get; set; }
 
         public string Title { get; set; }
+        public ulong Yes { get; set; }
+        public ulong No { get; set; }
+        public ulong DisLike { get; set; }
+        public ulong CategoryId { get; set; }
     }
 }

@@ -63,7 +63,11 @@ namespace Yano.Api.Controllers
             return questions.Select(c => new QuestionResource
             {
                 Id = c.Id,
-                Title = c.Title
+                Title = c.Title,
+                CategoryId = c.CategoryId,
+                Yes = c.Yes,
+                No = c.No,
+                DisLike = c.DisLike
             });
         }
 

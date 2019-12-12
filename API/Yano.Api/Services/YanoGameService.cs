@@ -126,7 +126,7 @@ namespace Yano.Api.Services
         {
             using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
             {
-                return await conn.QueryAsync<Question>("SELECT TOP 10 * FROM dbo.Questions");
+                return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,CategoryId from app.GetGuessQuestions()");
             }
 
             //return await this.Questions.Find(c => true).Limit(10).ToListAsync();
