@@ -79,7 +79,7 @@ namespace Yano.Api.Controllers
         [Route("player/answer")]
         public async void Answer([FromBody] AnswerResource answer)
         {
-            await _service.Answer(answer.PlayerId, answer.QuestionId, answer.Answer);
+            await _service.QuestionAnswer(answer.PlayerId, answer.QuestionId, answer.Answer, answer.dislikeReason);
         }
 
 

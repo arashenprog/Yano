@@ -14,7 +14,7 @@ namespace Yano.Api.Services
    
         Task<IEnumerable<Question>> GetNextQuestions(ulong playerId);
         Task<IEnumerable<Question>> GetGuestQuestions();
-        Task Answer(ulong playerId, ulong questionId, Answer answer);
+        Task QuestionAnswer(ulong playerId, ulong questionId, Answer answer, string dislikeReason);
         Task DisLike(ulong playerId, ulong questionId,string reason);
 
     }

@@ -12,5 +12,6 @@ namespace Yano.Api.Resources
 
         public ulong QuestionId { get; set; }
         public Answer Answer { get; set; }
+        public string dislikeReason { get; set; }
     }
 }

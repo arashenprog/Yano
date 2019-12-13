@@ -134,7 +134,7 @@ namespace Yano.Api.Services
                 using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
                 {
                     var parameters = new { Level = 1 };
-                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId from app.GetGuessQuestions(@Level)",parameters);
+                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId from app.GetGuessQuestions(@Level)", parameters);
                 }
             }
             catch (Exception e)
@@ -145,23 +145,51 @@ namespace Yano.Api.Services
             //return await this.Questions.Find(c => true).Limit(10).ToListAsync();
         }
 
-        public async Task Answer(ulong playerId, ulong questionId, Answer answer)
+        public async Task QuestionAnswer(ulong playerId, ulong questionId, Answer answer,string dislikeReason)
         {
-            this.PlayerAnswers.InsertOne(new PlayerAnswer
+            //this.PlayerAnswers.InsertOne(new PlayerAnswer
+            //{
+            //    PlayerId = playerId,
+            //    QuestionId = questionId,
+            //    Answer = answer
+            //});
+            ////
+            //var filter = Builders<Question>.Filter.Eq(x => x.Id, questionId);
+            //UpdateDefinition<Question> update = null;
+            //if (answer == Yano.Api.Domain.Models.Answer.No)
+            //    update = Builders<Question>.Update.Inc(x => x.No, (ulong)1).Inc(x => x.Count, (ulong)1);
+            //if (answer == Yano.Api.Domain.Models.Answer.Yes)
+            //    update = Builders<Question>.Update.Inc(x => x.Yes, (ulong)1).Inc(x => x.Count, (ulong)1);
+            ////
+            //await Questions.UpdateOneAsync(filter, update);
+
+            try
             {
-                PlayerId = playerId,
-                QuestionId = questionId,
-                Answer = answer
-            });
-            //
-            var filter = Builders<Question>.Filter.Eq(x => x.Id, questionId);
-            UpdateDefinition<Question> update = null;
-            if (answer == Yano.Api.Domain.Models.Answer.No)
-                update = Builders<Question>.Update.Inc(x => x.No, (ulong)1).Inc(x => x.Count, (ulong)1);
-            if (answer == Yano.Api.Domain.Models.Answer.Yes)
-                update = Builders<Question>.Update.Inc(x => x.Yes, (ulong)1).Inc(x => x.Count, (ulong)1);
-            //
-            await Questions.UpdateOneAsync(filter, update);
+                using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
+                {
+                    var yes = 0; var no = 0; var disLike = 0;
+                    if (answer == Answer.Yes)
+                        yes = 1;
+                    else if (answer == Answer.No)
+                        no = 1;
+                    else if (answer == Answer.DisLike)
+                        disLike = 1;
+                    var parameters = new
+                    {
+                        PlayerId = Convert.ToInt64(playerId),
+                        QuestionId = Convert.ToInt64(questionId),
+                        Yes = yes,
+                        No = no,
+                        Dislike = disLike,
+                        DislikeReason = dislikeReason
+                    };
+                    await conn.ExecuteAsync("[App].[Save_User_Answer_Sp](@PlayerId ,@QuestionId ,@Yes ,@No ,@DisLike ,@DisLikeReason )", parameters);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task DisLike(ulong playerId, ulong questionId, string reason)
