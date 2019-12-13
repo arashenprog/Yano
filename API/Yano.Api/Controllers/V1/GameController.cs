@@ -80,6 +80,8 @@ namespace Yano.Api.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
+
         [Route("player/answer")]
         public async void Answer([FromBody] AnswerResource answer)
         {

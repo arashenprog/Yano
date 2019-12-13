@@ -187,7 +187,7 @@ namespace Yano.Api.Services
                         Dislike = disLike,
                         DislikeReason = dislikeReason
                     };
-                    await conn.ExecuteAsync("[App].[Save_User_Answer_Sp](@PlayerId ,@QuestionId ,@Yes ,@No ,@DisLike ,@DisLikeReason )", parameters);
+                    await conn.ExecuteAsync("[App].[Save_User_Answer_Sp] @PlayerId ,@QuestionId ,@Yes ,@No ,@DisLike ,@DisLikeReason", parameters);
                 }
             }
             catch (Exception e)
