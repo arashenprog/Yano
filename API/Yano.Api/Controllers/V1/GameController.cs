@@ -68,12 +68,16 @@ namespace Yano.Api.Controllers
                 Yes = c.Yes,
                 No = c.No,
                 DisLike = c.DisLike,
-                Level = c.Level
+                Level = c.Level,
+                Count = c.Count,
+                YesPercent = c.YesPercent,
+                NoPercent = c.NoPercent,
+                DisLikePercent = c.DisLikePercent
 
             });
         }
 
-       
+
 
         [HttpPost]
         [Route("player/answer")]
@@ -92,7 +96,7 @@ namespace Yano.Api.Controllers
 
         [HttpGet]
         [Route("player/{playerid}")]
-    
+
         public async Task<IEnumerable<QuestionResource>> GetPlayerQuestions(ulong playerid)
         {
             var questions = await _service.GetNextQuestions(playerid);
@@ -104,7 +108,11 @@ namespace Yano.Api.Controllers
                 Yes = c.Yes,
                 No = c.No,
                 DisLike = c.DisLike,
-                Level = c.Level
+                Level = c.Level,
+                Count =c.Count,
+                YesPercent = c.YesPercent,
+                NoPercent = c.NoPercent,
+                DisLikePercent = c.DisLikePercent
             });
         }
     }

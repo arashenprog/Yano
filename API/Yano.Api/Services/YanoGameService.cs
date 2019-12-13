@@ -118,7 +118,9 @@ namespace Yano.Api.Services
                 var parameters = new { PlayerId = Convert.ToInt64(playerId) };
                 using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
                 {
-                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId from [App].[GetNextQuestionSerie](@PlayerId)", parameters);
+                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId " +
+                                                           ",Count,YesPercent,NoPercent,DisLikePercent " +
+                                                           "from [App].[GetNextQuestionSerie](@PlayerId)", parameters);
                 }
             }
             catch (Exception e)
@@ -134,7 +136,9 @@ namespace Yano.Api.Services
                 using (var conn = new System.Data.SqlClient.SqlConnection(this._yanoConnection))
                 {
                     var parameters = new { Level = 1 };
-                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId from app.GetGuessQuestions(@Level)", parameters);
+                    return await conn.QueryAsync<Question>("select Title,Id,Yes, No, DisLike,Level,CategoryId " +
+                                                           "Count, YesPercent, NoPercent, DisLikePercent " +
+                                                           "from app.GetGuessQuestions(@Level)", parameters);
                 }
             }
             catch (Exception e)

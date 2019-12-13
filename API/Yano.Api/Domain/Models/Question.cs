@@ -25,7 +25,11 @@ namespace Yano.Api.Domain.Models
         public ulong Level { get; set; }
 
         public ulong Count { get; set; }
+        public int YesPercent { get; set; }
+        public int NoPercent { get; set; }
+        public int DisLikePercent { get; set; }
 
 
+        
     }
 }
